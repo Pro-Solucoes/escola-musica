@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Lista de Cursos</title>
+    </h:head>
+    <h:body>
+        <p:panel header="Lista de Cursos" style="width: 80%">
+            <p:dataTable value="#{cursoBean.cursos}" var="curso">
+                <p:column headerText="Nome" style="width: 300px">
+                    <h:outputText value="#{curso.nome}"/>
+                </p:column>
+                <p:column headerText="Duração" style="width: 80px">
+                    <h:outputText value="#{curso.duracao}"/>
+                </p:column>
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{curso.tipo.label}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Data Criação">
+                    <h:outputText value="#{curso.dataCriacao}"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:body>
+</html>
+
