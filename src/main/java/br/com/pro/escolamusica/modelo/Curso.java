@@ -9,13 +9,19 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Curso implements Serializable {
 
-     private static final long serialVersionUID = -2562315443536852787L;
-     
+    private static final long serialVersionUID = -2562315443536852787L;
+
     private Integer id;
     private String nome;
     private String descricao;
@@ -31,6 +37,63 @@ public class Curso implements Serializable {
         this.nome = nome;
         this.descricao = descricao;
         this.tipo = tipo;
+        this.dataCriacao = dataCriacao;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @NotEmpty(message = "Você deve informar o Usuario")
+    @Length(min = 4,max = 50,message = "O nome docurso deve ter entre 3 e 20 caracter")
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @NotEmpty(message = "Você deve informar Descrição")
+    @Length(max = 255,message = "O campo descrição do pode ter 255 caracteres")
+    public String getDescricao() {
+        return descricao;
+    }
+
+    @Min(value = 1)
+    @Max(value = 10)
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public double getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(double duracao) {
+        this.duracao = duracao;
+    }
+
+    @NotNull
+    public TipoCurso getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoCurso tipo) {
+        this.tipo = tipo;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
@@ -77,56 +140,6 @@ public class Curso implements Serializable {
             return false;
         }
         return true;
-    }
-
-    @Id
-    @GeneratedValue
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public double getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(double duracao) {
-        this.duracao = duracao;
-    }
-
-    public TipoCurso getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoCurso tipo) {
-        this.tipo = tipo;
-    }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
     }
 
 }

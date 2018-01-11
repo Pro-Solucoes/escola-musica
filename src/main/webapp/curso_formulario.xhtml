@@ -16,11 +16,7 @@
             <p:panel header="Cadastro de Cursos" style="width: 60%">
                 <p:panelGrid columns="2" style="width: 95%">
                     <h:outputLabel value="Nome:"/>
-                    <p:inputText value="#{cursoBean.curso.nome}" required="true" requiredMessage="Você deve informar o Usuario"
-                                 validatorMessage="O nome docurso deve ter entre 3 e 20 caracter">
-                        <f:validateLength minimum="3" maximum="20"/>
-                        
-                    </p:inputText>
+                    <p:inputText value="#{cursoBean.curso.nome}" />
                     <h:outputLabel value="Descrição:"/>
                     <p:inputTextarea value="#{cursoBean.curso.descricao}" cols="40" rows="3"/>
                     <h:outputLabel value="Duração:"/>

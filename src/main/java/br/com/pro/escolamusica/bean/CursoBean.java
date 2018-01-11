@@ -5,9 +5,7 @@
  */
 package br.com.pro.escolamusica.bean;
 
-
 import br.com.pro.escolamusica.dao.CursoDAO;
-import br.com.pro.escolamusica.dao.GenericDAO;
 import br.com.pro.escolamusica.modelo.Curso;
 import br.com.pro.escolamusica.modelo.TipoCurso;
 import java.io.Serializable;
@@ -27,27 +25,41 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class CursoBean implements Serializable{
+public class CursoBean implements Serializable {
 
     private static final long serialVersionUID = 0L;
- 
-    
-    private Curso curso = new Curso();
+
+    private Curso curso;
     private List<TipoCurso> tipos = Arrays.asList(TipoCurso.values());
     private List<Curso> cursos = new ArrayList<Curso>();
 
     public CursoBean() {
-        System.out.print("appppaispaispa");
+        cursos = new CursoDAO().listarTodos();
+        curso = new Curso();
     }
 
     public String salvar() {
 
         new CursoDAO().salvar(curso);
-        
-        cursos.add(curso);
+        cursos = new CursoDAO().listarTodos();
         curso = new Curso();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Curso Salvo com Sucesso!"));
         return "curso_lista?faces-redirect=true";
+    }
+
+    public String editar(Curso curso) {
+        this.curso = curso;
+        return "curso_formulario?faces-redirect=true";
+    }
+
+    public void prepararExclusao(Curso curso) {
+        this.curso = curso;
+    }
+
+    public void excluir() {
+        new CursoDAO().excluir(curso);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Curso excluido com Sucesso!"));
+        cursos = new CursoDAO().listarTodos();
     }
 
     public String getDataAtual() {
