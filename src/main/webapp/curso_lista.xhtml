@@ -12,12 +12,14 @@
     <h:body>
         <p:panel header="Lista de Cursos" style="width: 80%">
             <p:button value="Novo Curso" outcome="curso_formulario"/>
+            <br/>
+            <br/>
             <h:form>
                 <p:growl/>
-                <p:dataTable value="#{cursoBean.cursos}" var="curso"
+                <p:dataTable value="#{cursoBean.cursos}" var="curso" id="tabela-cursos"
                              paginator="true" rows="5" rowsPerPageTemplate="5, 10, 15, 20" paginatorPosition="top"
-                             paginatorTemplate="{CurrentPageReport} {FistPageLink} {PreviousPageLink} 
-                             {PageLink} {NexPagLink} {LastPageLink} {RowsPerPageDropdown}">
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
                     <p:column headerText="Nome" style="width: 300px" sortBy="#{curso.nome}" filterBy="#{curso.nome}" filterMatchMode="contains">
                         <h:outputText value="#{curso.nome}" />
@@ -27,7 +29,7 @@
                         <h:outputText value="#{curso.duracao}"/>
                     </p:column>
                     
-                    <p:column headerText="Tipo"filterBy="#{curso.tipo.label}" filterMatchMode="contains">
+                    <p:column headerText="Tipo" filterBy="#{curso.tipo.label}" filterMatchMode="contains">
                         <h:outputText value="#{curso.tipo.label}" />
                     </p:column>
                     
@@ -37,13 +39,22 @@
                         </h:outputText>
                     </p:column>
                     
-                    <p:column style="text-align: center">
+                    <p:column style="text-align: center" exportable="false">
                         <p:commandLink value="Editar" action="#{cursoBean.editar(curso)}" style="color: blue"/>
                         <p:commandLink value="Excluir" actionListener="#{cursoBean.prepararExclusao(curso)}" style="color: red;margin-left: 20px;" update="@form"
                                        oncomplete="PF('confirmarExclusaoDialog').show()"/>
                     </p:column>
 
                 </p:dataTable>
+                <br/>
+                <h:commandLink >  
+                    <p:graphicImage library="image" name="ico-xls.png"/>
+                    <p:dataExporter type="xls" target="tabela-cursos" fileName="cursos"/>
+                </h:commandLink>
+                <h:commandLink  style="margin-left: 10px">       
+                      <p:graphicImage library="image" name="ico-pdf.png"/>
+                    <p:dataExporter type="pdf" target="tabela-cursos" fileName="cursos" encoding="iso-8859-1"/>
+                </h:commandLink>
                 
                 <p:confirmDialog message="Deseja realmente excluir o curso #{cursoBean.curso.nome}?" widgetVar="confirmarExclusaoDialog">
                     <p:commandButton value="Sim" action="#{cursoBean.excluir}" oncomplete="PF('confirmarExclusaoDialog').hide()" update="@form"/>

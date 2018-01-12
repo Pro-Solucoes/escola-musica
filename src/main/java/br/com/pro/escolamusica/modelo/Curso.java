@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -39,6 +40,12 @@ public class Curso implements Serializable {
         this.tipo = tipo;
         this.dataCriacao = dataCriacao;
     }
+     public String obterImagem(){
+        return nome.toLowerCase().replaceAll("ã", "a")
+                .replaceAll("é", "e")
+                .replace(" ", "_")
+                .concat(".png");
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,7 +58,7 @@ public class Curso implements Serializable {
     }
 
     @NotEmpty(message = "Você deve informar o Usuario")
-    @Length(min = 4,max = 50,message = "O nome docurso deve ter entre 3 e 20 caracter")
+    @Length(min = 4, max = 50, message = "O nome docurso deve ter entre 3 e 20 caracter")
     public String getNome() {
         return nome;
     }
@@ -61,17 +68,17 @@ public class Curso implements Serializable {
     }
 
     @NotEmpty(message = "Você deve informar Descrição")
-    @Length(max = 255,message = "O campo descrição do pode ter 255 caracteres")
+    @Length(max = 255, message = "O campo descrição do pode ter 255 caracteres")
     public String getDescricao() {
         return descricao;
     }
 
-    @Min(value = 1)
-    @Max(value = 10)
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    @Min(value = 1)
+    @Max(value = 10)
     public double getDuracao() {
         return duracao;
     }
@@ -80,7 +87,7 @@ public class Curso implements Serializable {
         this.duracao = duracao;
     }
 
-    @NotNull
+    @NotNull(message = "Voc^deve selecionar o tipo do curso!")
     public TipoCurso getTipo() {
         return tipo;
     }
@@ -89,6 +96,8 @@ public class Curso implements Serializable {
         this.tipo = tipo;
     }
 
+    @NotNull(message = "A data de criação deve ser informada")
+    @Past(message = "A data de criação deve ser menor que a data atual")
     public Date getDataCriacao() {
         return dataCriacao;
     }
